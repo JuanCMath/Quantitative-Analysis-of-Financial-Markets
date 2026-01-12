@@ -329,9 +329,13 @@ Este proyecto es de uso académico para el curso de Estadística de MATCOM, Univ
 
 ---
 
-## 👨‍💻 Autor
+## 👨‍💻 Autores
 
-**Juan Carlos**  
+- **Juan Carlos Carmenate Díaz**  
+Estudiante de MATCOM, Universidad de La Habana  
+Curso 2025–2026
+
+- **Sebastian González Alfonso**  
 Estudiante de MATCOM, Universidad de La Habana  
 Curso 2025–2026
 

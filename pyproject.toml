@@ -1,7 +1,7 @@
 [project]
 name = "quantitative-analysis-of-financial-markets"
 version = "0.1.0"
-description = "Add your description here"
+description = "Quantitative analysis of financial markets"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [

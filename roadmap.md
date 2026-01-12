@@ -147,7 +147,3 @@ Transformaciones necesarias:
 - [ ] Ensayo de la exposición  
 
 ---
-
-## 🟢 Listo para trabajar
-Este roadmap marca todas las fases recomendadas en la guía oficial del proyecto y provee una estructura clara para el desarrollo del análisis.
-
