@@ -1,0 +1,549 @@
+% ============================================================
+% Presentación: Análisis Cuantitativo de Mercados Financieros
+% Proyecto Final de Estadística — MATCOM, UH (2025-2026)
+% ============================================================
+
+\documentclass[aspectratio=169, 10pt]{beamer}
+
+% --- Tema y colores ---
+\usetheme{metropolis}
+\usepackage{appendixnumberbeamer}
+
+% Colores institucionales (azul UH)
+\definecolor{uhblue}{RGB}{0, 51, 102}
+\definecolor{uhlightblue}{RGB}{51, 102, 153}
+\definecolor{uhgray}{RGB}{128, 128, 128}
+
+\setbeamercolor{frametitle}{bg=uhblue, fg=white}
+\setbeamercolor{title separator}{fg=uhlightblue}
+\setbeamercolor{progress bar}{fg=uhlightblue, bg=uhgray!30}
+\setbeamercolor{alerted text}{fg=uhlightblue}
+\setbeamercolor{block title}{bg=uhblue, fg=white}
+\setbeamercolor{block body}{bg=uhblue!10}
+
+% --- Paquetes ---
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath, amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{multicol}
+
+% --- Información del documento ---
+\title{Análisis Cuantitativo de Mercados Financieros}
+\subtitle{Acciones tecnológicas vs ETF de Oro}
+\author{Juan Carlos Carmenate Díaz \and Sebastian González Alfonso}
+\institute{Facultad de Matemática y Computación (MATCOM)\\Universidad de La Habana}
+\date{Proyecto Final de Estadística — Curso 2025-2026}
+
+% ============================================================
+\begin{document}
+
+% --- DIAPOSITIVA 1: Portada ---
+\begin{frame}[plain]
+    \maketitle
+\end{frame}
+
+% --- DIAPOSITIVA 2: Preguntas de Investigación ---
+\begin{frame}{Preguntas de Investigación}
+    \begin{block}{Objetivos del Estudio}
+        Aplicar técnicas estadísticas a series financieras diarias para comparar comportamiento, riesgo y relaciones entre activos.
+    \end{block}
+    
+    \vspace{0.5cm}
+    
+    \begin{enumerate}
+        \item ¿Qué activo presenta mayor volatilidad en el período analizado?
+        
+        \vspace{0.3cm}
+        
+        \item ¿Existen correlaciones significativas entre los rendimientos de los activos?
+        
+        \vspace{0.3cm}
+        
+        \item ¿Se pueden identificar grupos naturales según comportamiento estadístico?
+        
+        \vspace{0.3cm}
+        
+        \item ¿Es posible predecir la dirección diaria (sube/baja) de un activo usando variables simples?
+    \end{enumerate}
+\end{frame}
+
+% --- DIAPOSITIVA 3: Datos y Período de Análisis ---
+\begin{frame}{Datos y Período de Análisis}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{block}{Activos Analizados}
+                \begin{table}
+                    \centering
+                    \small
+                    \begin{tabular}{ll}
+                        \toprule
+                        \textbf{Símbolo} & \textbf{Descripción} \\
+                        \midrule
+                        AAPL & Apple Inc. (acción) \\
+                        MSFT & Microsoft Corp. (acción) \\
+                        NVDA & NVIDIA Corp. (acción) \\
+                        AAAU & ETF respaldado por oro \\
+                        \bottomrule
+                    \end{tabular}
+                \end{table}
+            \end{block}
+            
+            \vspace{0.3cm}
+            
+            \begin{block}{Período Efectivo}
+                \textbf{2018-08-15} a \textbf{2020-04-01}\\
+                \textit{409 observaciones diarias}\\
+                (intersección temporal común)
+            \end{block}
+        \end{column}
+        
+        \begin{column}{0.48\textwidth}
+            \begin{block}{Variables Utilizadas}
+                \begin{itemize}
+                    \item \textbf{Rendimientos simples:}
+                    $$r_t = \frac{P_t - P_{t-1}}{P_{t-1}}$$
+                    
+                    \item \textbf{Rendimientos logarítmicos:}
+                    $$\ell_t = \ln(P_t) - \ln(P_{t-1})$$
+                \end{itemize}
+            \end{block}
+            
+            \vspace{0.2cm}
+            
+             \begin{block}{Serie temporal de precios}
+            	\centering
+            	\includegraphics[width=\textwidth]{img/prices.png}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- DIAPOSITIVA 4: Volatilidad y Riesgo ---
+\begin{frame}{Volatilidad y Riesgo Diario}
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            \begin{block}{Desviación Estándar de Rendimientos}
+                \begin{table}
+                    \centering
+                    \begin{tabular}{lcc}
+                        \toprule
+                        \textbf{Activo} & $\sigma$ & \textbf{Tipo} \\
+                        \midrule
+                        NVDA & 3.51\% & Máx. volatilidad \\
+                        AAPL & 2.35\% & Media-alta \\
+                        MSFT & 2.21\% & Media \\
+                        AAAU & 0.90\% & Mín. volatilidad \\
+                        \bottomrule
+                    \end{tabular}
+                \end{table}
+            \end{block}
+            
+            \vspace{0.3cm}
+            
+            \begin{block}{Hallazgo Clave}
+                NVDA es \textbf{3.9 veces} más volátil que AAAU
+            \end{block}
+        \end{column}
+        
+        \begin{column}{0.52\textwidth}
+           \begin{block}{Histogramas de rendimientos por activo}
+	           \centering
+                \includegraphics[width=\textwidth]{img/ret.png}
+        	\end{block}
+        \end{column}
+    \end{columns}
+    
+    \vspace{0.2cm}
+    
+    \footnotesize
+    \textit{Interpretación:} NVDA, acción tecnológica de alto crecimiento, vs. AAAU, ETF de oro y activo refugio.
+\end{frame}
+
+% --- DIAPOSITIVA 5: Correlaciones ---
+\begin{frame}{Correlaciones entre Activos}
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            \begin{block}{Correlaciones Tecnológicas}
+                \begin{table}
+                    \centering
+                    \small
+                    \begin{tabular}{lc}
+                        \toprule
+                        \textbf{Par} & $\rho$ \\
+                        \midrule
+                        AAPL--MSFT & \textbf{0.814} \\
+                        MSFT--NVDA & 0.701 \\
+                        AAPL--NVDA & 0.676 \\
+                        \bottomrule
+                    \end{tabular}
+                \end{table}
+            \end{block}
+            
+            \begin{block}{Correlación con AAAU}
+                \begin{table}
+                    \centering
+                    \small
+                    \begin{tabular}{lc}
+                        \toprule
+                        \textbf{Par} & $\rho$ \\
+                        \midrule
+                        AAAU--AAPL & $-0.039$ \\
+                        AAAU--MSFT & $-0.036$ \\
+                        AAAU--NVDA & $-0.045$ \\
+                        \bottomrule
+                    \end{tabular}
+                \end{table}
+            \end{block}
+        \end{column}
+        
+        \begin{column}{0.52\textwidth}
+            \begin{block}{Matriz de correlación}
+            	\centering
+            	\includegraphics[width=0.75\textwidth]{img/correlation.png}
+            \end{block}
+            
+            \vspace{0.3cm}
+            
+            \footnotesize
+            AAAU actúa como instrumento de \textbf{diversificación} (baja dependencia del mercado accionario)
+            
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- DIAPOSITIVA 6: Pruebas de Hipótesis ---
+\begin{frame}{Pruebas de Hipótesis: Comparación de Medias}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{block}{Welch t-test (Pairwise)}
+                $H_0: \mu_A = \mu_B$ vs $H_1: \mu_A \neq \mu_B$
+                
+                \vspace{0.2cm}
+                
+                \begin{table}
+                    \centering
+                    \footnotesize
+                    \begin{tabular}{lcc}
+                        \toprule
+                        \textbf{Par} & \textbf{p-valor} & \textbf{Rechaza?} \\
+                        \midrule
+                        MSFT--NVDA & 0.7498 & No \\
+                        AAAU--MSFT & 0.7573 & No \\
+                        AAPL--MSFT & 0.7633 & No \\
+                        AAAU--NVDA & 0.8716 & No \\
+                        AAAU--AAPL & 0.9258 & No \\
+                        AAPL--NVDA & 0.9337 & No \\
+                        \bottomrule
+                    \end{tabular}
+                \end{table}
+            \end{block}
+        \end{column}
+        
+        \begin{column}{0.48\textwidth}
+            \begin{block}{ANOVA Global}
+                $H_0: \mu_{\text{AAAU}} = \mu_{\text{AAPL}} = \mu_{\text{MSFT}} = \mu_{\text{NVDA}}$
+                
+                \vspace{0.3cm}
+                
+                \begin{itemize}
+                    \item F-estadístico: \textbf{0.0812}
+                    \item p-valor: \textbf{0.9705}
+                \end{itemize}
+                
+                \vspace{0.3cm}
+                
+                $\Rightarrow$ \textbf{No se rechaza} $H_0$
+            \end{block}
+            
+            \vspace{0.3cm}
+            
+            \begin{block}{Conclusión}
+                A escala diaria, la \textbf{volatilidad} y \textbf{correlación} discriminan mejor que la media de rendimientos.
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- DIAPOSITIVA 7: Regresión Lineal ---
+\begin{frame}{Regresión Lineal: Relación AAPL vs MSFT}
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            \begin{block}{Modelo Lineal}
+                $$r_t^{\text{AAPL}} = \beta_0 + \beta_1 r_t^{\text{MSFT}} + \varepsilon_t$$
+            \end{block}
+            
+            \vspace{0.2cm}
+            
+            \begin{block}{Parámetros Estimados}
+                \begin{table}
+                    \centering
+                    \begin{tabular}{lc}
+                        \toprule
+                        \textbf{Parámetro} & \textbf{Valor} \\
+                        \midrule
+                        $\hat{\beta}_0$ (intersección) & $-0.000329$ \\
+                        $\hat{\beta}_1$ (pendiente) & $0.8675$ \\
+                        $R^2$ (coef. determinación) & $0.6619$ \\
+                        RMSE & $0.01366$ \\
+                        \bottomrule
+                    \end{tabular}
+                \end{table}
+            \end{block}
+        \end{column}
+        
+        \begin{column}{0.52\textwidth}
+            \begin{block}{Scatter plot: AAPL vs MSFT}
+                \centering
+                \includegraphics[width=\textwidth]{img/regression.png}
+            \end{block}
+            
+            \vspace{0.2cm}
+            
+            \footnotesize
+            MSFT explica el \textbf{66.19\%} de la varianza de AAPL. La pendiente positiva (0.87) indica co-movimiento sustancial entre estas acciones tecnológicas, sujetas a factores comunes del sector.
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- DIAPOSITIVA 8: PCA y Estructura Latente ---
+\begin{frame}{Análisis de Componentes Principales (PCA)}
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            \begin{block}{Varianza Explicada}
+                \begin{table}
+                    \centering
+                    \begin{tabular}{lcc}
+                        \toprule
+                        \textbf{PC} & \textbf{Var.} & \textbf{Acum.} \\
+                        \midrule
+                        PC1 & 61.63\% & 61.63\% \\
+                        PC2 & 24.92\% & 86.55\% \\
+                        PC3 & 8.82\% & 95.37\% \\
+                        PC4 & 4.63\% & 100\% \\
+                        \bottomrule
+                    \end{tabular}
+                \end{table}
+            \end{block}
+            
+            \vspace{0.2cm}
+            
+            \begin{block}{Interpretación}
+                \begin{itemize}
+                    \item \textbf{PC1 (61.63\%):} Factor de mercado común
+                    \item \textbf{PC2 (24.92\%):} Factor discriminante
+                \end{itemize}
+            \end{block}
+        \end{column}
+        
+        \begin{column}{0.52\textwidth}
+            \begin{block}{Varianza explicada acumulada}
+            	\centering
+            	\includegraphics[width=0.75\textwidth]{img/component_s2.png}
+            \end{block}
+            
+            \vspace{0.2cm}
+            
+            \footnotesize
+            \textit{Hallazgo:} 4 activos se comprimen eficazmente en 2 dimensiones latentes, sugiriendo la existencia de una estructura simple subyacente.
+            
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- DIAPOSITIVA 9: K-Means y Regímenes ---
+\begin{frame}{Clustering K-Means: Identificación de Regímenes}
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            \begin{block}{3 Regímenes Identificados}
+                \small
+                \begin{description}
+                    \item[Normal (76.5\%)] 313 días\\
+                    Volatilidad baja, $\rho \approx 0.12$
+                    
+                    \vspace{0.2cm}
+                    
+                    \item[Rally (8.1\%)] 33 días\\
+                    Volatilidad moderada, $\rho \approx 0.28$
+                    
+                    \vspace{0.2cm}
+                    
+                    \item[Crash (15.4\%)] 63 días\\
+                    Volatilidad alta, $\rho \approx 0.42$
+                \end{description}
+            \end{block}
+            
+            \begin{block}{``Contagio de Correlación''}
+                La correlación aumenta en estrés\\
+                $(0.12 \rightarrow 0.42)$, reduciendo\\
+                el beneficio de diversificación.
+            \end{block}
+        \end{column}
+        
+        \begin{column}{0.52\textwidth}
+            \begin{block}{Scatter plot de clusters en espacio PCA}
+            	\centering
+            	\includegraphics[width=\textwidth]{img/3_means.png}
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- DIAPOSITIVA 10: Clasificación y Predicción ---
+\begin{frame}{Clasificación: Predicción Direccional de AAPL}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{block}{Formulación del Modelo}
+                \begin{itemize}
+                    \item \textbf{Target:} $y_{t+1} = 1[r_{t+1}^{\text{AAPL}} > 0]$
+                    \item \textbf{Features (tiempo $t$):}
+                    \begin{itemize}
+                        \item Rendimientos: MSFT, NVDA, AAAU
+                        \item Volatilidad móvil (20 días)
+                    \end{itemize}
+                    \item \textbf{Modelo:} Regresión logística
+                    \item \textbf{Split:} 75\%-25\% temporal
+                \end{itemize}
+            \end{block}
+            
+            \begin{block}{Resultado Nulo}
+            	El modelo \textbf{no supera el baseline}:\\
+            	predice siempre ``sube'' (clase mayoritaria).
+            	
+            	\textit{Sensitivity:} 1.00 | \textit{Specificity:} 0.00
+            \end{block}
+            
+        \end{column}
+        
+        \begin{column}{0.48\textwidth}
+        	\begin{block}{Resultados}
+        		\begin{table}
+        			\centering
+        			\begin{tabular}{lc}
+        				\toprule
+        				\textbf{Métrica} & \textbf{Valor} \\
+        				\midrule
+        				Precisión del modelo & 50.98\% \\
+        				Baseline (mayoría) & 50.98\% \\
+        				Mejora & +0.00\% \\
+        			\end{tabular}
+        		\end{table}
+        	\end{block}
+            
+            \begin{block}{Interpretación (EMH)}
+                Consistente con la \textbf{Hipótesis de Mercados Eficientes} (Fama, 1970):
+                
+                \vspace{0.2cm}
+                
+                \footnotesize
+                Con features simples y horizonte diario, la dirección de precios es \textbf{impredecible}.
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- DIAPOSITIVA 11: Síntesis de Resultados ---
+\begin{frame}{Síntesis de Resultados}
+    \begin{enumerate}
+        \item \textbf{Volatilidad heterogénea:} NVDA ($\sigma = 3.51\%$) es 3.9 veces más volátil que AAAU ($\sigma = 0.90\%$).
+        
+        \vspace{0.2cm}
+        
+        \item \textbf{Correlaciones diferenciadas:} Bloque tecnológico cohesivo ($\rho \geq 0.67$), AAAU decorrelacionado ($\rho \approx -0.04$).
+        
+        \vspace{0.2cm}
+        
+        \item \textbf{Medias no discriminantes:} Welch y ANOVA confirman que la volatilidad y correlación importan más que la media diaria.
+        
+        \vspace{0.2cm}
+        
+        \item \textbf{Estructura latente eficiente:} 2 componentes PCA capturan el 86.55\% de varianza.
+        
+        \vspace{0.2cm}
+        
+        \item \textbf{3 regímenes de mercado:} Normal (76.5\%), Rally (8.1\%), Crash (15.4\%) con ``contagio de correlación'' en estrés.
+        
+        \vspace{0.2cm}
+        
+        \item \textbf{Volatilidad heterocedástica:} Varía de $\sim$1.5\% (estabilidad) a $\sim$5\% (COVID-19).
+        
+        \vspace{0.2cm}
+        
+        \item \textbf{Predicción direccional fallida:} Predicción del modelo igual a la del baseline, consistente con EMH.
+    \end{enumerate}
+\end{frame}
+
+% --- DIAPOSITIVA 12: Respuestas a las Preguntas ---
+\begin{frame}{Respuestas a las Preguntas de Investigación}
+    \begin{block}{P1: ¿Qué activo presenta mayor volatilidad?}
+        \textbf{NVDA} con $\sigma \approx 3.51\%$, seguido de AAPL (2.35\%), MSFT (2.21\%), y AAAU (0.90\%).
+    \end{block}
+    
+    \vspace{0.2cm}
+    
+    \begin{block}{P2: ¿Existen correlaciones significativas?}
+        \textbf{Sí.} Acciones tecnológicas: $\rho = 0.67$--$0.81$ (co-movimiento fuerte).\\
+        AAAU vs acciones: $\rho \approx -0.04$ (prácticamente independiente).
+    \end{block}
+    
+    \vspace{0.2cm}
+    
+    \begin{block}{P3: ¿Se pueden identificar clusters naturales?}
+        \textbf{Sí.} PCA + K-Means identifican 3 regímenes: Normal, Rally, Crash.\\
+        Los mercados no operan bajo un único régimen estable.
+    \end{block}
+    
+    \vspace{0.2cm}
+    
+    \begin{block}{P4: ¿Es posible predecir la dirección diaria?}
+        \textbf{No} con features simples. \\
+        Consistente con la teoría de mercados eficientes.
+    \end{block}
+\end{frame}
+
+% --- DIAPOSITIVA 13: Conclusiones ---
+\begin{frame}{Conclusiones}
+    \begin{columns}[T]
+        \begin{column}{0.48\textwidth}
+            \begin{block}{Hallazgos Principales}
+                \begin{enumerate}
+                    \item La \textbf{volatilidad y correlación} dominan los retornos diarios, no la media.
+                    
+                    \vspace{0.15cm}
+                    
+                    \item El \textbf{riesgo no es estático}: cambia con el régimen de mercado.
+                    
+                    \vspace{0.15cm}
+                    
+                    \item \textbf{Diversificación limitada en crisis}: las correlaciones aumentan cuando más se necesita cobertura.
+                    
+                    \vspace{0.15cm}
+                    
+                    \item \textbf{Predicción requiere sofisticación}: los modelos simples fallan.
+                \end{enumerate}
+            \end{block}
+        \end{column}
+        
+        \begin{column}{0.48\textwidth}
+            \begin{block}{Limitaciones}
+                \begin{itemize}
+                    \item Ventana temporal corta (409 días)
+                    \item Sesgo por crisis COVID-19
+                    \item Supuestos lineales violados
+                    \item Normalidad rechazada (colas pesadas)
+                \end{itemize}
+            \end{block}
+            
+            \vspace{0.2cm}
+            
+            \begin{block}{Caracterización general}
+                 Los activos de \textbf{NVDA}, \textbf{MSFT} y \textbf{AAPL} se mostraron volátiles, con el dinamismo esperado en el sector tecnólogico. En contraste, \textbf{AAAU} mostró un comportamiento más estable, acorde a su funcionamiento como activo refugio.
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% ============================================================
+\end{document}
