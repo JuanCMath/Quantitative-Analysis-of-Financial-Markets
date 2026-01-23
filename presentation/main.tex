@@ -107,11 +107,9 @@
                     $$r_t = \frac{P_t - P_{t-1}}{P_{t-1}}$$
                     
                     \item \textbf{Rendimientos logarítmicos:}
-                    $$\ell_t = \ln(P_t) - \ln(P_{t-1})$$
+                    $$\ell_t = \ln(P_t) - \ln(P_{t-1}) = \ln(\frac{P_t}{P_{t-1}})$$
                 \end{itemize}
             \end{block}
-            
-            \vspace{0.2cm}
             
              \begin{block}{Serie temporal de precios}
             	\centering
@@ -215,7 +213,7 @@
 \end{frame}
 
 % --- DIAPOSITIVA 6: Pruebas de Hipótesis ---
-\begin{frame}{Pruebas de Hipótesis: Comparación de Medias}
+\begin{frame}{Pruebas de Hipótesis: Medias de Rendimientos}
     \begin{columns}[T]
         \begin{column}{0.48\textwidth}
             \begin{block}{Welch t-test (Pairwise)}
@@ -267,7 +265,53 @@
     \end{columns}
 \end{frame}
 
-% --- DIAPOSITIVA 7: Regresión Lineal ---
+% --- DIAPOSITIVA 7: Pruebas de Normalidad ---
+\begin{frame}{Pruebas de Hipótesis: Normalidad de Rendimientos}
+    \begin{columns}[T]
+        \begin{column}{0.45\textwidth}
+            \begin{block}{Pruebas de Normalidad}
+                \begin{itemize}
+                    \item \textbf{Jarque-Bera (JB):} Basado en asimetría y curtosis
+                    \item \textbf{Kolmogorov-Smirnov (KS):} Compara distribución empírica vs normal
+                \end{itemize}
+                
+                \vspace{0.2cm}
+                
+                Hipótesis:
+                \begin{itemize}
+                    \item $H_0$: Rendimientos distribuyen normalmente
+                    \item $H_1$: No normales ($\alpha = 0.05$)
+                \end{itemize}
+            \end{block}
+        \end{column}
+        
+        \begin{column}{0.52\textwidth}
+            \begin{block}{Resultados por Activo}
+                \begin{table}
+                    \centering
+                    \footnotesize
+                    \begin{tabular}{lcccc}
+                        \toprule
+                        \textbf{Activo} & \textbf{JB p-val} & \textbf{KS p-val} & \textbf{Rechaza} \\
+                        \midrule
+                        AAPL & $\ll 0.001$ & $\ll 0.001$ & Sí \\
+                        MSFT & $\ll 0.001$ & $\ll 0.001$ & Sí \\
+                        NVDA & $\ll 0.001$ & $\ll 0.001$ & Sí \\
+                        AAAU & $\ll 0.001$ & $\ll 0.001$ & Sí \\
+                        \bottomrule
+                    \end{tabular}
+                \end{table}
+            \end{block}
+            
+            \begin{block}{Resultado}
+            	\textbf{Se rechaza normalidad en todos los activos}. \\
+            	La no-normalidad es característica intrínseca de retornos financieros. Las distribuciones exhiben \textbf{colas pesadas} y \textbf{asimetría}, especialmente en períodos de crisis.
+            \end{block}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% --- DIAPOSITIVA 8: Regresión Lineal ---
 \begin{frame}{Regresión Lineal: Relación AAPL vs MSFT}
     \begin{columns}[T]
         \begin{column}{0.45\textwidth}
@@ -341,7 +385,7 @@
         \begin{column}{0.52\textwidth}
             \begin{block}{Varianza explicada acumulada}
             	\centering
-            	\includegraphics[width=0.75\textwidth]{img/component_s2.png}
+            	\includegraphics[width=0.85\textwidth]{img/component_s2.png}
             \end{block}
             
             \vspace{0.2cm}
